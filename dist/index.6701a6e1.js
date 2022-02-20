@@ -941,7 +941,7 @@ $parcel$ReactRefreshHelpers$b058.prelude(module);
 try {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 var _jsxRuntime = require("react/jsx-runtime");
-var _react = require("react");
+var _react = require("react"); //import defaut export of 'react' module to 'React' constant
 var _reactDefault = parcelHelpers.interopDefault(_react);
 var _reactDom = require("react-dom");
 var _reactDomDefault = parcelHelpers.interopDefault(_reactDom);
@@ -968,9 +968,9 @@ class MyFlixApplication extends _reactDefault.default.Component {
         }));
     }
 }
-// Finds the root of the app
+// DOM finds the root of the app and assign to constant container
 const container = document.getElementsByClassName('app-container')[0];
-// Tells React to render app in the root DOM element
+// Tells React to render app in the root DOM element, display MyFlicApplication component in the 'root' element
 _reactDomDefault.default.render(/*#__PURE__*/ _reactDefault.default.createElement(MyFlixApplication), container);
 
   $parcel$ReactRefreshHelpers$b058.postlude(module);
