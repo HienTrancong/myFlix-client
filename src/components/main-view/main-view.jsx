@@ -1,6 +1,9 @@
 //Import react to React instance
 import React from 'react';
 
+//Import axios library
+import axios from 'axios';
+
 //Import MovieCard (list of movies) and MovieView (movie's detail) components
 import { MovieCard } from '../movie-card/movie-card';
 import { MovieView } from '../movie-view/movie-view';
@@ -10,13 +13,21 @@ export class MainView extends React.Component {
   constructor(){
     super();
     this.state = {
-      movies: [
-        {_id:1,Title:'Inception',Description:': A thief who steals corporate secrets through the use of dream-sharing technology is given the inverse task of planting an idea into the mind of a C.E.O., but his tragic past may doom the project and his team to disaster.',ImagePath:'https://images.app.goo.gl/2UpK3qrDRjF9rYB36'},
-        {_id:2,Title:'The Shawshank Redemption',Description: ': Two imprisoned men bond over a number of years, finding solace and eventual redemption through acts of common decency.',ImagePath: 'https://www.imdb.com/title/tt0111161/mediaviewer/rm10105600/?ref_=ext_shr_lnk'},
-        {_id:3,Title:'Gladiator',Description:'A former Roman General sets out to exact vengeance against the corrupt emperor who murdered his family and sent him into slavery.',ImagePath: 'https://images.app.goo.gl/Lvfz4TnNd7vCoUpY6'}
-      ],
+      movies: [],
       selectedMovie: null
     };
+  }
+
+  componentDidMount() {
+    axios.get ('https://hien-tran-080222.herokuapp.com/movies')
+      .then(response => {
+        this.setState({
+          movies: response.data
+        });
+      })
+      .catch(error => {
+        console.log(error);
+      });
   }
 
   //Custom component method to change state
@@ -41,6 +52,12 @@ export class MainView extends React.Component {
 
 
 /* NOTE
+axios 
+  https://axios-http.com/docs/intro
+
+componentDidMount() method is called after the component is rendered.
+This is where you run statements that requires that the component is already placed in the DOM.
+https://www.w3schools.com/react/react_lifecycle.asp
 
 React class components have built.in state object, storing property values that belong to the component
 Whenever state changes, the component will be automatically re-rendered, update only the effected nodes
