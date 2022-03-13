@@ -18,6 +18,7 @@ export class MainView extends React.Component {
     };
   }
 
+  // ComponentDidMount: code executed right after the component is added to the DOM
   componentDidMount() {
     axios.get ('https://hien-tran-080222.herokuapp.com/movies')
       .then(response => {
@@ -29,6 +30,12 @@ export class MainView extends React.Component {
         console.log(error);
       });
   }
+
+// axios to do ajax operation, to fetch the actual movies from myFlix movies API
+
+  // ComponenWillUnmount: code executed just before the moment the component gets removed from the DOM
+
+  
 
   //Custom component method to change state
   setSelectedMovie(newSelectedMovie) { 
