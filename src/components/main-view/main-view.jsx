@@ -1,12 +1,17 @@
 //Import react to React instance
 import React from 'react';
 
-//Import axios library
+//Import axios library to fetch movies from database
 import axios from 'axios';
 
-//Import MovieCard (list of movies) and MovieView (movie's detail) components
+
+//Import LoginView component (user login) 
+import { LoginView } from '../login-view/login-view';
+//Import MovieCard component (list of movies) 
 import { MovieCard } from '../movie-card/movie-card';
+//Import MovieView component (movie's detail) 
 import { MovieView } from '../movie-view/movie-view';
+
 
 //Create and expose MaineView component, as class component
 export class MainView extends React.Component {
@@ -14,11 +19,12 @@ export class MainView extends React.Component {
     super();
     this.state = {
       movies: [],
-      selectedMovie: null
+      selectedMovie: null,
+      user: null,
     };
   }
 
-  // ComponentDidMount: code executed right after the component is added to the DOM
+  //Axios to do ajax operation, to fetch the actual movies from myFlix movies API
   componentDidMount() {
     axios.get ('https://hien-tran-080222.herokuapp.com/movies')
       .then(response => {
@@ -31,21 +37,25 @@ export class MainView extends React.Component {
       });
   }
 
-// axios to do ajax operation, to fetch the actual movies from myFlix movies API
-
-  // ComponenWillUnmount: code executed just before the moment the component gets removed from the DOM
-
-  
-
-  //Custom component method to change state
+  //Custom component method to change state, when a movie title is clicked
   setSelectedMovie(newSelectedMovie) { 
     this.setState({selectedMovie: newSelectedMovie});
   }
 
+  //When user logins i.e. click Submit button on loginview, user state change from null to user input
+  onLoggedIn(user) {
+    this.setState({
+      user
+    });
+  }
+
   //Render visual representation of component
   render () {
-    const { movies, selectedMovie } = this.state;
+    const { movies, selectedMovie, user } = this.state;
+    if (!user) return <LoginView onLoggedIn={user => this.onLoggedIn(user)} />;
+    // Before the movies have been loaded
     if (movies.length === 0) return <div className="main-view" />;
+    //If the state of `selectedMovie` is not null, that selected movie will be returned otherwise, all movies will be returned
     return (
       <div className="main-view">
         {selectedMovie
@@ -92,6 +102,12 @@ render():
 rendering only affect the changed component
 Props get passed through elements 
   const { movies, selectedMovie } = this.state;//ES6 feature called object destruction. It’s a shortened form of const movies = this.state.movies and const selectedMovie = this.state.selectedMovie, destructuring compenent states into objects
+
+  
+  If there is no user aka user is null/faulty, the LoginView is rendered. If there is a user logged in, the user details are*passed as a prop to the LoginView
+  method, onLoggedIn, will be passed as a prop with the same name to LoginView
+  (note that this just happens to be the same name—it’s not a constraint). This method will update the user state of the MainView component and will be called when the user has successfully logged in
+    
 
   {selectedMovie
     ? <MovieView .../>
