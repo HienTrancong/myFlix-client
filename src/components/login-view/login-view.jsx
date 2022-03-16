@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
+import Form from 'react-bootstrap/Form';
+import Button from 'react-bootstrap/Button';
 
 //Export function component
 export function LoginView(props) {
   const [ username, setUsername ] = useState('');
   const [ password, setPassword ] = useState('');
-
   
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -14,13 +15,23 @@ export function LoginView(props) {
     props.onLoggedIn(username);
   };
 
+
   return (
-    <form>
-      <label>Username: <input type="text" value={username} onChange= { e => setUsername(e.target.value) } /></label>
-      <label>Password: <input type="password" value={password} onChange= { e => setPassword(e.target.value) } /></label>
-      <button type="submit" onClick={handleSubmit}>Submit</button> <br /> <br />
-      <button type="submit">Register</button>
-    </form>
+    <Form>
+      <Form.Group controlId="formUsername">
+        <Form.Label>Username:</Form.Label>
+        <Form.Control type="text" onChange= { e => setUsername(e.target.value) } />
+      </Form.Group>
+
+      <Form.Group controlId="formPassword">
+        <Form.Label>Password:</Form.Label>
+        <Form.Control type="password" onChange= { e => setPassword(e.target.value) } />
+      </Form.Group>
+
+      <Button variant="primary" type="submit" onClick={handleSubmit}>
+        Submit
+      </Button>
+    </Form>
 
   );
 }
@@ -52,5 +63,12 @@ ReactDOM.render(
       //prevent default behavior of button which is refresh/reload
     //onChange = function event occurs when value of element has been changed
     //e is event argument , target is the component, value is value of input component
+
+        <form>
+      <label>Username: <input type="text" value={username} onChange= { e => setUsername(e.target.value) } /></label>
+      <label>Password: <input type="password" value={password} onChange= { e => setPassword(e.target.value) } /></label>
+      <button type="submit" onClick={handleSubmit}>Submit</button> <br /> <br />
+      <button type="submit">Register</button>
+    </form>
 
 */

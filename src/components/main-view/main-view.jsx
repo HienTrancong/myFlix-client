@@ -4,7 +4,8 @@ import React from 'react';
 //Import axios library to fetch movies from database
 import axios from 'axios';
 
-
+//Import RegistrationView component (user login) 
+import { RegistrationView } from '../registration-view/registration-view';
 //Import LoginView component (user login) 
 import { LoginView } from '../login-view/login-view';
 //Import MovieCard component (list of movies) 
@@ -21,6 +22,7 @@ export class MainView extends React.Component {
       movies: [],
       selectedMovie: null,
       user: null,
+      register: null
     };
   }
 
@@ -42,6 +44,13 @@ export class MainView extends React.Component {
     this.setState({selectedMovie: newSelectedMovie});
   }
 
+  //Custom component method to change state, when a movie title is clicked
+  onRegistration(register) {
+    this.setState({
+      register
+    });
+  }
+
   //When user logins i.e. click Submit button on loginview, user state change from null to user input
   onLoggedIn(user) {
     this.setState({
@@ -51,8 +60,12 @@ export class MainView extends React.Component {
 
   //Render visual representation of component
   render () {
-    const { movies, selectedMovie, user } = this.state;
-    if (!user) return <LoginView onLoggedIn={user => this.onLoggedIn(user)} />;
+    const { movies, selectedMovie, user, register } = this.state;
+
+    if (!register) return (<RegistrationView onRegistration={(register) => this.onRegistration(register)}/>);
+    
+    if (!user) return <LoginView onLoggedIn={user => this.onLoggedIn(user)} onRegistration={register => this.onRegistration(register)} />;
+    
     // Before the movies have been loaded
     if (movies.length === 0) return <div className="main-view" />;
     //If the state of `selectedMovie` is not null, that selected movie will be returned otherwise, all movies will be returned
