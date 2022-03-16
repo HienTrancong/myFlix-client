@@ -1,12 +1,23 @@
 // import react to React instance
 import React from 'react';
 import PropTypes from 'prop-types';
+import Button from 'react-bootstrap/Button';
+import Card from 'react-bootstrap/Card';
 
 //Create and expose MovieCard, for list of movies titles
 export class MovieCard extends React.Component {
   render() {
     const { movie, onMovieClick } = this.props;
-    return <div className="movie-card" onClick={() => { onMovieClick(movie); }}>{movie.Title}</div>;
+    return (
+      <Card>
+        <Card.Img variant="top" src={movie.ImagePath} />
+        <Card.Body>
+          <Card.Title>{movie.Title}</Card.Title>
+          <Card.Text>{movie.Description}</Card.Text>
+          <Button onClick={() => onMovieClick(movie)} variant="link">Open</Button>
+        </Card.Body>
+      </Card>
+    );
   }
 }
 
@@ -33,6 +44,8 @@ this.props refer to class component MovieCard
 ES6 object destruction, short form of const movie=this.props.movie, destructuring props movie and onMovieClick objects from MovieCard passed by MainView
 onClick is special attribute, which accepts function, a call back function once the element is clicked
 onClick={() => { onMovieClick(movie); } is event listener, listen when user click on movie.Title, pass argument "movie" to onMovieClick
+
+variant="top"
 
 
 */
