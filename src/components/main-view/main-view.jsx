@@ -1,87 +1,120 @@
 //Import react to React instance
-import React from 'react';
+import React from "react";
 
 //Import axios library to fetch movies from database
-import axios from 'axios';
+import axios from "axios";
 
-//Import RegistrationView component (user login) 
-import { RegistrationView } from '../registration-view/registration-view';
-//Import LoginView component (user login) 
-import { LoginView } from '../login-view/login-view';
-//Import MovieCard component (list of movies) 
-import { MovieCard } from '../movie-card/movie-card';
-//Import MovieView component (movie's detail) 
-import { MovieView } from '../movie-view/movie-view';
+//Import RegistrationView component (user login)
+import { RegistrationView } from "../registration-view/registration-view";
+//Import LoginView component (user login)
+import { LoginView } from "../login-view/login-view";
+//Import MovieCard component (list of movies)
+import { MovieCard } from "../movie-card/movie-card";
+//Import MovieView component (movie's detail)
+import { MovieView } from "../movie-view/movie-view";
 
+import Row from "react-bootstrap/Row";
+import Col from "react-bootstrap/Col";
 
 //Create and expose MaineView component, as class component
 export class MainView extends React.Component {
-  constructor(){
+  constructor() {
     super();
     this.state = {
       movies: [],
       selectedMovie: null,
       user: null,
-      register: null
+      register: null,
     };
   }
 
   //Axios to do ajax operation, to fetch the actual movies from myFlix movies API
   componentDidMount() {
-    axios.get ('https://hien-tran-080222.herokuapp.com/movies')
-      .then(response => {
+    axios
+      .get("https://hien-tran-080222.herokuapp.com/movies")
+      .then((response) => {
         this.setState({
-          movies: response.data
+          movies: response.data,
         });
       })
-      .catch(error => {
+      .catch((error) => {
         console.log(error);
       });
   }
 
   //Custom component method to change state, when a movie title is clicked
-  setSelectedMovie(newSelectedMovie) { 
-    this.setState({selectedMovie: newSelectedMovie});
+  setSelectedMovie(newSelectedMovie) {
+    this.setState({ selectedMovie: newSelectedMovie });
   }
 
   //Custom component method to change state, when a movie title is clicked
   onRegistration(register) {
     this.setState({
-      register
+      register,
     });
   }
 
   //When user logins i.e. click Submit button on loginview, user state change from null to user input
   onLoggedIn(user) {
     this.setState({
-      user
+      user,
     });
   }
 
   //Render visual representation of component
-  render () {
+  render() {
     const { movies, selectedMovie, user, register } = this.state;
 
-    if (!register) return (<RegistrationView onRegistration={(register) => this.onRegistration(register)}/>);
-    
-    if (!user) return <LoginView onLoggedIn={user => this.onLoggedIn(user)} onRegistration={register => this.onRegistration(register)} />;
-    
+    if (!register)
+      return (
+        <RegistrationView
+          onRegistration={(register) => this.onRegistration(register)}
+        />
+      );
+
+    if (!user)
+      return (
+        <LoginView
+          onLoggedIn={(user) => this.onLoggedIn(user)}
+          onRegistration={(register) => this.onRegistration(register)}
+        />
+      );
+
     // Before the movies have been loaded
     if (movies.length === 0) return <div className="main-view" />;
     //If the state of `selectedMovie` is not null, that selected movie will be returned otherwise, all movies will be returned
     return (
-      <div className="main-view">
-        {selectedMovie
-          ? <MovieView movie={selectedMovie} onBackClick={(newSelectedMovie) => {this.setSelectedMovie(newSelectedMovie);}}/>
-          : movies.map(movie => <MovieCard key={movie._id} movie={movie} onMovieClick={(movie) => {this.setSelectedMovie(movie)}} />)
-        }
-      </div>
+      <Row className="main-view justify-content-md-center">
+        {selectedMovie ? (
+          <Col md={8}>
+            <MovieView
+              movie={selectedMovie}
+              onBackClick={(newSelectedMovie) => {
+                this.setSelectedMovie(newSelectedMovie);
+              }}
+            />
+          </Col>
+        ) : (
+          movies.map((movie) => (
+            <Col md={3}>
+              <MovieCard
+                key={movie._id}
+                movie={movie}
+                onMovieClick={(movie) => {
+                  this.setSelectedMovie(movie);
+                }}
+              />
+            </Col>
+          ))
+        )}
+      </Row>
     );
   }
 }
 
-
 /* NOTE
+
+<Col md={8}> //md medium screen size 768px, define column with of 8/12
 axios 
   https://axios-http.com/docs/intro
 
