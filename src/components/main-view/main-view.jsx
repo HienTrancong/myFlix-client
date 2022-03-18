@@ -16,7 +16,7 @@ import { MovieView } from "../movie-view/movie-view";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 
-//Create and expose MaineView component, as class component
+//Create and expose MainView component, as class component
 export class MainView extends React.Component {
   constructor() {
     super();
@@ -115,6 +115,7 @@ export class MainView extends React.Component {
 /* NOTE
 
 <Col md={8}> //md medium screen size 768px, define column with of 8/12
+
 axios 
   https://axios-http.com/docs/intro
 
