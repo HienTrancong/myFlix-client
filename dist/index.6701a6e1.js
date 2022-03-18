@@ -22809,6 +22809,9 @@ Props get passed through elements
   onMovieClick is a function as prop, passed to movie-card, include the logic in it
 
 react event listener https://www.w3schools.com/react/react_events.asp
+
+test branch
+
 */ ;
 var _jsxRuntime = require("react/jsx-runtime");
 //Import react to React instance
