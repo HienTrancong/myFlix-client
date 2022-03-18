@@ -941,43 +941,44 @@ $parcel$ReactRefreshHelpers$b058.prelude(module);
 try {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 var _jsxRuntime = require("react/jsx-runtime");
-//import defaut export of 'react' module to 'React' constant, and import React virtual DOM
+//Import defaut export of 'react' module to 'React' constant
 var _react = require("react");
 var _reactDefault = parcelHelpers.interopDefault(_react);
+//Import Reat virtual DOM
 var _reactDom = require("react-dom");
 var _reactDomDefault = parcelHelpers.interopDefault(_reactDom);
+//Import Container (grid system) from react bootstrap
 var _container = require("react-bootstrap/Container");
 var _containerDefault = parcelHelpers.interopDefault(_container);
-//import MainView from main-view.jsx, curly bracket when not default
+//Import MainView from main-view.jsx, curly bracket when not default
 var _mainView = require("./components/main-view/main-view");
 //import statement to indicate need to bundle `./index.scss`
 var _indexScss = require("./index.scss");
-//Main component (will eventually use all the others)
+//Create class component 'MyFlixApplication' which is main component
 class MyFlixApplication extends _reactDefault.default.Component {
-    //create class component 'MyFlixApplication'
     render() {
-        //render method to return HTML div element
         return(/*#__PURE__*/ _jsxRuntime.jsx(_containerDefault.default, {
             __source: {
                 fileName: "src/index.jsx",
-                lineNumber: 18
+                lineNumber: 20
             },
             __self: this,
             children: /*#__PURE__*/ _jsxRuntime.jsx(_mainView.MainView, {
                 __source: {
                     fileName: "src/index.jsx",
-                    lineNumber: 19
+                    lineNumber: 21
                 },
                 __self: this
             })
         }));
     }
 }
-// DOM finds the root of the app and assign to constant container
+//DOM finds the root of the app and assign to constant container
 const container = document.getElementsByClassName("app-container")[0];
-// Tells React to render app in the root DOM element, display MyFlicApplication component in the 'root' element
+//Tells React to render app in the root DOM element, display MyFlicApplication component in the 'root' element
 _reactDomDefault.default.render(/*#__PURE__*/ _reactDefault.default.createElement(MyFlixApplication), container); /* NOTE
- */ 
+
+*/ 
 
   $parcel$ReactRefreshHelpers$b058.postlude(module);
 } finally {
@@ -22751,11 +22752,12 @@ $parcel$ReactRefreshHelpers$35bf.prelude(module);
 try {
 var parcelHelpers = require("@parcel/transformer-js/src/esmodule-helpers.js");
 parcelHelpers.defineInteropFlag(exports);
-//Create and expose MaineView component, as class component
+//Create and expose MainView component, as class component
 parcelHelpers.export(exports, "MainView", ()=>MainView
 ) /* NOTE
 
 <Col md={8}> //md medium screen size 768px, define column with of 8/12
+
 axios 
   https://axios-http.com/docs/intro
 
