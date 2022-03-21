@@ -1,6 +1,6 @@
 import React from 'react';
 
-// import { CardGroup, Card, Button, Container, CardImg, ListGroup, ListGroupItem, Row, Col } from 'react-bootstrap';
+import { CardGroup, Card, Button, Container, CardImg, ListGroup, ListGroupItem, Row, Col } from 'react-bootstrap';
 
 export class MovieView extends React.Component {
   render() {
@@ -14,14 +14,12 @@ export class MovieView extends React.Component {
                 <CardImg className="movie-view movie-poster" src={movie.ImagePath} />
                 <Card.Body>
                   <Card.Title className="movie-title value">{movie.Title}</Card.Title>
-                  <Card.Text className="movie-description value">{movie.Description}</Card.Text>
-                </Card.Body>
-                <Card.Body>
                   <ListGroup>
-                    <ListGroupItem className="movie-genre">{movie.Genre.Name}</ListGroupItem>
-                    <ListGroupItem className="movie-director">{movie.Director.Name}</ListGroupItem>
+                    <ListGroupItem className="movie-description value">Description: {movie.Description}</ListGroupItem>
+                    <ListGroupItem className="movie-genre">Genre: {movie.Genre.Name}</ListGroupItem>
+                    <ListGroupItem className="movie-director">Director: {movie.Director.Name}</ListGroupItem>
                   </ListGroup>
-                  <Button variant="Primary" onClick={() => { onBackClick(null); }}>
+                  <Button variant="primary" onClick={() => { onBackClick(null); }}>
                     Back
                   </Button>
                 </Card.Body>
@@ -29,7 +27,7 @@ export class MovieView extends React.Component {
             </CardGroup>
           </Col>
         </Row>
-      </Container>
+      </Container >
     );
   }
 }
