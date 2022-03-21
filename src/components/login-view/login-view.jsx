@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
+import axios from 'axios';
 import propTypes from 'prop-types';
-import Form from 'react-bootstrap/Form';
 import { Container, Row, Col, Card, CardGroup, Button, Form } from 'react-bootstrap';
 
 //Export function component
@@ -15,7 +15,6 @@ export function LoginView(props) {
     // then call props.onLoggedIn(username)
     props.onLoggedIn(username);
   };
-
 
   return (
     <Container>
@@ -47,11 +46,11 @@ export function LoginView(props) {
   );
 }
 
-LoginView.propTypes = {
-  user: propTypes.shape({
-    username: PropTypes.string.isRequired
-  })
-}
+// LoginView.propTypes = {
+//   user: propTypes.shape({
+//     username: PropTypes.string.isRequired
+//   })
+// }
 
 
 /* NOTES
