@@ -76,7 +76,6 @@ export class MainView extends React.Component {
       return (
         <LoginView
           onLoggedIn={(user) => this.onLoggedIn(user)}
-          onRegistration={(register) => this.onRegistration(register)}
         />
       );
 
