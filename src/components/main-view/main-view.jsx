@@ -73,7 +73,7 @@ export class MainView extends React.Component {//Create and expose MainView comp
     return (
       <Routes>
         <Row className="main-view justify-content-md-center">
-          <Route exact path="/" render={() => {//If no user loggedin, render login view, preventing rendering register view
+          <Route exact path="/" render={() => {
             if (!user)
               return <Col>
                 <LoginView onLoggedIn={(user) => this.onLoggedIn(user)} />
@@ -85,6 +85,7 @@ export class MainView extends React.Component {//Create and expose MainView comp
               </Col>
             ))
           }} />
+
           <Route path="/register" render={() => {
             if (user) return <Redirect to="/" />
             return <Col> <RegistrationView /> </Col>
