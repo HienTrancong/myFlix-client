@@ -2,6 +2,8 @@ import React from 'react';
 
 import { CardGroup, Card, Button, Container, CardImg, ListGroup, ListGroupItem, Row, Col } from 'react-bootstrap';
 
+import { Link } from 'react-router-dom';
+
 export class MovieView extends React.Component {
   render() {
     const { movie, onBackClick } = this.props;
@@ -19,6 +21,12 @@ export class MovieView extends React.Component {
                     <ListGroupItem className="movie-genre">Genre: {movie.Genre.Name}</ListGroupItem>
                     <ListGroupItem className="movie-director">Director: {movie.Director.Name}</ListGroupItem>
                   </ListGroup>
+                  <Link to={`/director/${movie.Director.Name}`}>
+                    <Button variant="link">Director</Button>
+                  </Link>
+                  <Link to={`/genre/${movie.Genre.Name}`}>
+                    <Button variant="link">Genre</Button>
+                  </Link>
                   <Button variant="primary" onClick={() => { onBackClick(null); }}>
                     Back
                   </Button>

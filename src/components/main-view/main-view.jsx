@@ -1,51 +1,154 @@
-//Import react to React instance
 import React from "react";
-
-//Import axios library to fetch movies from database
 import axios from "axios";
 
-//Import RegistrationView component (user login)
+import { BrowserRouter as Router, Route, Redirect } from "react-router-dom";
+
+import './main-view.scss'
+import { Container, Row, Col, Button } from "react-bootstrap";
+
+
 import { RegistrationView } from "../registration-view/registration-view";
-//Import LoginView component (user login)
 import { LoginView } from "../login-view/login-view";
-//Import MovieCard component (list of movies)
 import { MovieCard } from "../movie-card/movie-card";
-//Import MovieView component (movie's detail)
 import { MovieView } from "../movie-view/movie-view";
+import { ProfileView } from "../profile-view/profile-view";
 
-import Row from "react-bootstrap/Row";
-import Col from "react-bootstrap/Col";
-
-//Create and expose MainView component, as class component
-export class MainView extends React.Component {
+export class MainView extends React.Component {//Create and expose MainView component, as class component
   constructor() {
     super();
-    this.state = {
+    this.state = {//Initial state set to null
       movies: [],
       selectedMovie: null,
       user: null,
-      register: null,
     };
   }
 
-  //Axios to do ajax operation, to fetch the actual movies from myFlix movies API
   componentDidMount() {
-    axios
-      .get("https://hien-tran-080222.herokuapp.com/movies")
-      .then((response) => {
+    let accessToken = localStorage.getItem('token');//Get the value of the token from local storage and assign to accessToken
+    if (accessToken !== null) {
+      this.setState({//Change state of MainView user by value of user from localStorage
+        user: localStorage.getItem('user')
+      });
+      this.getMovies(accessToken)//Call getMovies method
+    }
+  }
+
+  //When user sucessfully logs in, this function updates 'user' property to that user
+  onLoggedIn(authData) {
+    console.log(authData);
+    this.setState({
+      user: authData.user.Username
+    });
+    localStorage.setItem('token', authData.token);
+    localStorage.setItem('user', authData.user.Username);
+    this.getMovies(authData.token);
+  }
+
+  //When user logs out, token and user are removed from localStorage, 'user' state set to null
+  onLoggedOut() {
+    localStorage.removeItem('token');
+    localStorage.removeItem('user');
+    this.setState({
+      user: null
+    });
+  }
+
+  getMovies(token) {//passing bearer authorization in header of HTTP request, to make authenticated requested to the API
+    axios.get("https://hien-tran-080222.herokuapp.com/movies", {
+      headers: { Authorization: `Bearer ${token}` }
+    })
+      .then(response => {// Assign the result to the state
         this.setState({
-          movies: response.data,
+          movies: response.data
         });
       })
-      .catch((error) => {
+      .catch(function (error) {
         console.log(error);
       });
   }
+
+  //Render visual representation of component
+  render() {
+    const { movies, user } = this.state;
+    return (
+      <Routes>
+        <Row className="main-view justify-content-md-center">
+          <Route exact path="/" render={() => {//If no user loggedin, render login view, preventing rendering register view
+            if (!user)
+              return <Col>
+                <LoginView onLoggedIn={(user) => this.onLoggedIn(user)} />
+              </Col>
+            if (movies.length === 0) return <div className="main-view" />;
+            return movies.map(m => (
+              <Col md={3} key={m.id}>
+                <MovieCard movie={m} />
+              </Col>
+            ))
+          }} />
+          <Route path="/register" render={() => {
+            if (user) return <Redirect to="/" />
+            return <Col> <RegistrationView /> </Col>
+          }} />
+
+          <Route path="/movies/:movieId" render={({ match, history }) => {
+            return <Col md={8}>
+              <MovieView movie={movies.find(m => m.id === match.params.movieId)} onBackClick={() => history.goBack()} />
+            </Col>
+          }} />
+
+          <Route path={"/users/${user}"} render={({ history }) => {
+            if (!user) return <Redirect to="/" />
+            return (<Col>
+              <ProfileView user={user} movies={movies} onBackClick={() => history.goBack()} />
+            </Col>
+            )
+          }} />
+
+          <Route path="/directors/:name" render={({ match, history }) => {
+            if (!user) return <Redirect to="/" />
+            if (movies.length === 0) return <div className="main-view" />;
+            return <Col md={8}>
+              <MovieView director={movies.find(m => m.Director.Name === match.params.name).Director} onBackClick={() => history.goBack()} />
+            </Col>
+          }} />
+
+          <Route path="/genres/:name" render={({ match, history }) => {
+            if (!user) return <Redirect to="/" />
+            if (movies.length === 0) return <div className="main-view" />;
+            return <Col md={8}>
+              <MovieView director={movies.find(m => m.Genre.Name === match.params.name).Genre} onBackClick={() => history.goBack()} />
+            </Col>
+          }} />
+        </Row>
+      </Routes>
+    );
+  }
+}
+
+/* NOTE
+
+Router component, contains Route component
+      each Route component has a path prop expresses what it should match
+      and a render() prop to tell what to render if it matches the URL
+      path to a movie view contains a fixed fragment (movies/:movieId).
+    
 
   //Custom component method to change state, when a movie title is clicked
   setSelectedMovie(newSelectedMovie) {
     this.setState({ selectedMovie: newSelectedMovie });
   }
+
+
+    if (!register)
+      return (
+        <RegistrationView
+          onRegistration={(register) => this.onRegistration(register)
+          }
+        />
+      );
+
+
+  //Axios to do ajax operation, to fetch the actual movies from myFlix movies API
 
   //Custom component method to change state, when a movie title is clicked
   onRegistration(register) {
@@ -61,57 +164,6 @@ export class MainView extends React.Component {
     });
   }
 
-  //Render visual representation of component
-  render() {
-    const { movies, selectedMovie, user, register } = this.state;
-
-    if (!register)
-      return (
-        <RegistrationView
-          onRegistration={(register) => this.onRegistration(register)}
-        />
-      );
-
-    if (!user)
-      return (
-        <LoginView
-          onLoggedIn={(user) => this.onLoggedIn(user)}
-        />
-      );
-
-    // Before the movies have been loaded
-    if (movies.length === 0) return <div className="main-view" />;
-    //If the state of `selectedMovie` is not null, that selected movie will be returned otherwise, all movies will be returned
-    return (
-      <Row className="main-view justify-content-md-center">
-        {selectedMovie ? (
-          <Col md={8}>
-            <MovieView
-              movie={selectedMovie}
-              onBackClick={(newSelectedMovie) => {
-                this.setSelectedMovie(newSelectedMovie);
-              }}
-            />
-          </Col>
-        ) : (
-          movies.map((movie) => (
-            <Col md={3}>
-              <MovieCard
-                key={movie._id}
-                movie={movie}
-                onMovieClick={(movie) => {
-                  this.setSelectedMovie(movie);
-                }}
-              />
-            </Col>
-          ))
-        )}
-      </Row>
-    );
-  }
-}
-
-/* NOTE
 
 <Col md={8}> //md medium screen size 768px, define column with of 8/12
 
@@ -168,5 +220,30 @@ Props get passed through elements
 react event listener https://www.w3schools.com/react/react_events.asp
 
 test branch
+
+OLD code
+
+          {selectedMovie ? (
+            <Col md={8}>
+              <MovieView
+                movie={selectedMovie}
+                onBackClick={(newSelectedMovie) => {
+                  this.setSelectedMovie(newSelectedMovie);
+                }}
+              />
+            </Col>
+          ) : (
+            movies.map((movie) => (
+              <Col md={3}>
+                <MovieCard
+                  key={movie._id}
+                  movie={movie}
+                  onMovieClick={(movie) => {
+                    this.setSelectedMovie(movie);
+                  }}
+                />
+              </Col>
+            ))
+          )}
 
 */
