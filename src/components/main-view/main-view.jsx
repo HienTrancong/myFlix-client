@@ -1,10 +1,10 @@
 import React from "react";
 import axios from "axios";
 
-import { BrowserRouter as Router, Route, Redirect } from "react-router-dom";
+import { BrowserRouter as Routes, Route, Redirect } from "react-router-dom";
 
 import './main-view.scss'
-import { Container, Row, Col, Button } from "react-bootstrap";
+import { Row, Col } from "react-bootstrap";
 
 
 import { RegistrationView } from "../registration-view/registration-view";
