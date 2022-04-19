@@ -6,7 +6,6 @@ import { UpdateUser } from './update-user';
 import { FavoriteMovies } from './favorite-movies';
 
 
-
 import './profile-view.scss';
 import { Button } from 'react-bootstrap';
 

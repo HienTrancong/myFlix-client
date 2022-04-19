@@ -66,12 +66,9 @@ export function RegistrationView(props) {
           const data = response.data;
           console.log(data);
           alert('Registration successful, please login!');
-          //if the backend validation is succcessful, data will be loggedin and users redirected to main view
-          //where they can login and see the list of movies
-          //Open window replaces current tab
           window.open('/', '_self');
         })
-        .catch(reponse => {
+        .catch(response => {
           console.error(response);
           alert('Unable to register');
         });
@@ -146,5 +143,9 @@ export function RegistrationView(props) {
 
 /* NOTE
 https://www.w3schools.com/jsref/met_win_open.asp
+
+          //if the backend validation is succcessful, data will be loggedin and users redirected to main view
+          //where they can login and see the list of movies
+          //Open window replaces current tab
 
 */
