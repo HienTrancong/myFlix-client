@@ -10,27 +10,25 @@ import { RegistrationView } from "../registration-view/registration-view";
 import { LoginView } from "../login-view/login-view.jsx";
 import { MovieCard } from "../movie-card/movie-card";
 import { MovieView } from "../movie-view/movie-view";
-import { ProfileView } from "../profile-view/profile-view";
 import { NavbarView } from "../navbar-view/navbar-view";
 
 
-export class MainView extends React.Component {//Create and expose MainView component, as class component
+export class MainView extends React.Component {
   constructor() {
     super();
-    this.state = {//Initial state set to null
+    this.state = {
       movies: [],
-      selectedMovie: null,
       user: null,
     };
   }
 
   componentDidMount() {
-    let accessToken = localStorage.getItem('token');//Get the value of the token from local storage and assign to accessToken
+    let accessToken = localStorage.getItem('token');
     if (accessToken !== null) {
-      this.setState({//Change state of MainView user by value of user from localStorage
+      this.setState({
         user: localStorage.getItem('user')
       });
-      this.getMovies(accessToken)//Call getMovies method
+      this.getMovies(accessToken)
     }
   }
 
@@ -54,11 +52,11 @@ export class MainView extends React.Component {//Create and expose MainView comp
     });
   }
 
-  getMovies(token) {//passing bearer authorization in header of HTTP request, to make authenticated requested to the API
-    axios.get("https://hien-tran-080222.herokuapp.com/movies", {
+  getMovies(token) {
+    axios.get('https://hien-tran-080222.herokuapp.com/movies', {
       headers: { Authorization: `Bearer ${token}` }
     })
-      .then(response => {// Assign the result to the state
+      .then(response => {
         this.setState({
           movies: response.data
         });
@@ -68,9 +66,9 @@ export class MainView extends React.Component {//Create and expose MainView comp
       });
   }
 
-  //Render visual representation of component
   render() {
     const { movies, user } = this.state;
+
     return (
       <Routes>
         <NavbarView user={user} />
@@ -93,19 +91,11 @@ export class MainView extends React.Component {//Create and expose MainView comp
               <RegistrationView />
             </Col>
           }} />
-          <Route path="/movies/:movieTitle" render={({ match, history }) => {
+          <Route path="/movies/:movieId" render={({ match, history }) => {
             return <Col md={8}>
-              <MovieView movie={movies.find(m => m.id === match.params.movieId)} onBackClick={() => history.goBack()} />
+              <MovieView movie={movies.find(m => m._id === match.params.movieId)} onBackClick={() => history.goBack()} />
             </Col>
           }} />
-          <Route path={"/users/${user}"} render={({ history }) => {
-            if (!user) return <Redirect to="/" />
-            return (<Col>
-              <ProfileView user={user} movies={movies} onBackClick={() => history.goBack()} />
-            </Col>
-            )
-          }} />
-
         </Row>
       </Routes>
     );
@@ -113,5 +103,20 @@ export class MainView extends React.Component {//Create and expose MainView comp
 }
 
 /* NOTE
+//Get the value of the token from local storage and assign to accessToken
+//passing bearer authorization in header of HTTP request, to make authenticated requested to the API
+// Assign the result to the state
+//Initial state set to null
+//Create and expose MainView component, as class component
+//Change state of MainView user by value of user from localStorage
+//Call getMovies method
+
+          <Route path={"/users/${user}"} render={({ history }) => {
+            if (!user) return <Redirect to="/" />
+            return (<Col>
+              <ProfileView user={user} movies={movies} onBackClick={() => history.goBack()} />
+            </Col>
+            )
+          }} />
 
 */

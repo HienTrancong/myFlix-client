@@ -13,7 +13,7 @@ export class MovieView extends React.Component {
           <Col>
             <CardGroup>
               <Card>
-                <CardImg className="movie-view movie-poster" src={movie.ImagePath} />
+                <CardImg className="movie-view movie-poster" src={movie.ImagePath} crossOrigin="true" />
                 <Card.Body>
                   <Card.Title className="movie-title value">{movie.Title}</Card.Title>
                   <ListGroup>

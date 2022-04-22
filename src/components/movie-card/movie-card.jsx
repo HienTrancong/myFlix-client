@@ -11,11 +11,11 @@ export class MovieCard extends React.Component {
     const { movie } = this.props;
     return (
       <Card>
-        <Card.Img variant="top" src={movie.ImagePath} />
+        <Card.Img variant="top" src={movie.ImagePath} crossOrigin="true" />
         <Card.Body>
           <Card.Title>{movie.Title}</Card.Title>
           <Card.Text>{movie.Description}</Card.Text>
-          <Link to={`/movies/${movie.Title}`}>
+          <Link to={`/movies/${movie._id}`}>
             <Button variant="link">Open</Button>
           </Link>
         </Card.Body>
@@ -33,7 +33,6 @@ MovieCard.propTypes = {
       Name: PropTypes.string
     })
   }).isRequired,
-  onMovieClick: PropTypes.func.isRequired
 };
 
 //proptypes is property make sure that components use correct data type and pass the right data
@@ -49,6 +48,8 @@ onClick is special attribute, which accepts function, a call back function once 
 onClick={() => { onMovieClick(movie); } is event listener, listen when user click on movie.Title, pass argument "movie" to onMovieClick
 
 variant="top"
+
+// onMovieClick: PropTypes.func.isRequired
 
 
 */
