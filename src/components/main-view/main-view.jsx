@@ -11,6 +11,7 @@ import { LoginView } from "../login-view/login-view.jsx";
 import { MovieCard } from "../movie-card/movie-card";
 import { MovieView } from "../movie-view/movie-view";
 import { NavbarView } from "../navbar-view/navbar-view";
+import { ProfileView } from "../profile-view/profile-view";
 
 
 export class MainView extends React.Component {
@@ -80,7 +81,7 @@ export class MainView extends React.Component {
               </Col>
             if (movies.length === 0) return <div className="main-view" />;
             return movies.map(m => (
-              <Col md={3} key={m.id}>
+              <Col md={3} key={m._id}>
                 <MovieCard movie={m} />
               </Col>
             ))
@@ -95,6 +96,14 @@ export class MainView extends React.Component {
             return <Col md={8}>
               <MovieView movie={movies.find(m => m._id === match.params.movieId)} onBackClick={() => history.goBack()} />
             </Col>
+          }} />
+          <Route path={"/users/${user}"} render={({ history }) => {
+            if (!user) return <Redirect to="/" />
+            return (
+              <Col>
+                <ProfileView user={user} movies={movies} onBackClick={() => history.goBack()} />
+              </Col>
+            )
           }} />
         </Row>
       </Routes>
