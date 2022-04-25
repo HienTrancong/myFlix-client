@@ -2,14 +2,14 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
 import { UserInfo } from './user-info';
-import { UpdateUser } from './update-user';
-import { FavoriteMovies } from './favorite-movies';
-
+import { FavoriteMovies } from './favorite-movies'
 
 import './profile-view.scss';
-import { Button } from 'react-bootstrap';
+import { Button, Container, Row, Col, Nav } from 'react-bootstrap';
+import { UpdateUser } from './update-user';
 
 export function ProfileView(props) {
+
   //constant to hold the userdata loaded from the server
   const [userdata, setUserdata] = useState({});
   //constant to hold the data that the user updates through the form
@@ -29,6 +29,7 @@ export function ProfileView(props) {
       .then(response => {
         //Assign the result to the userdata
         setUserdata(response.data);
+        setUpdatedUser(response.data);
         //Set favorite movie list with values from FavoriteMovies in userdata
         setFavoriteMovieList(props.movies.filter(m => response.data.FavoriteMovies.includes(m._id)));
       })
@@ -36,47 +37,37 @@ export function ProfileView(props) {
         console.log(err);
       });
   }
-
-  //Get the user data in useEffect hook
   useEffect(() => {
-    let source = axios.CancelToken.source(); //?
-
-    //Load user data
+    let source = axios.CancelToken.source();
     if (token !== null) {
-      getUserData(source.token, props.user);
+      getUserData(
+        source.token,
+        props.user);
     } else {
-      console.log('Not authorized');
+      console.log('Not Authorized');
     }
-
-    // Clean up effect ?
     return () => {
       source.cancel();
     }
   }, []);
 
-  //Function to update userdata through API
   const handleSubmit = (e) => {
-    e.preventDefault(); // prevent default submit button behaviour, i.e., don't reload the page
-
-    //Sending request to server, if successful, update userdata
-    axios.put(`https://hien-tran-080222.herokuapp.com/users/${userdata.Username}`,
-      updatedUser //?
-    )
+    e.preventDefault();
+    axios.put(`https://mymoviesapp775.herokuapp.com/users/${userdata.Username}`, updatedUser)
       .then(response => {
-        //Update userdata with new user from the server
         setUserdata(response.data);
-        alert('Profile successfully updated')
+        alert('Profile updated');
       })
-      .catch(err => {
-        console.log(err);
+      .catch(e => {
+        console.log(e);
       });
   }
 
-  //Function to handle the updates in the form input fields, adding to updatedUser variable which will be passed to server in handleSubmit
+  //?
   const handleUpdate = (e) => {
     setUpdatedUser({
-      ...updatedUser,//?
-      [e.target.name]: e.target.value//?
+      ...updatedUser,
+      [e.target.name]: e.target.value
     });
   }
 
@@ -87,7 +78,6 @@ export function ProfileView(props) {
         alert('Your profile has been deleted');
         localStorage.removeItem('user');
         localStorage.removeItem('token');
-
         window.open('/', '_self');
       })
       .catch(err => {
@@ -108,29 +98,24 @@ export function ProfileView(props) {
   }
 
   return (
-    <>
-      {/*Display userdata*/}
-      < UserInfo userdata={userdata} />
-
-      {/*Form to update user data*/}
-      < UpdateUser userdata={userdata} handleSubmit={handleSubmit} handleUpdate={handleUpdate} />
-
-      {/*Button to delete user*/}
-      <div>
-        <Button className="bm=3" variant="danger" type="submit" onClick={deleteProfile}>
-          Delete Profile
-        </Button>
-      </div>
-
-      {/*List of favorite movies*/}
-      <FavoriteMovies favoriteMovieList={favoriteMovieList} removeFavorite={removeFavorite} />
-
-      <div>
-        <Button variant="outline-light" onClick={() => props.onBackClick()}>Back to full list</Button>
-      </div>
-    </>
+    <Container>
+      <Row>
+        <Col>
+          < UserInfo userdata={userdata} />
+          < FavoriteMovies favoriteMovieList={favoriteMovieList} removeFavorite={removeFavorite} />
+          < UpdateUser handleSubmit={handleSubmit} handleUpdate={handleUpdate} />
+          <div>
+            <Nav.Link href="/">Back to Movies list</Nav.Link>
+          </div>
+          <div>
+            <Button variant="danger" type="submit" onClick={deleteProfile}>
+              Delete profile
+            </Button>
+          </div>
+        </Col>
+      </Row>
+    </Container>
   );
-
 }
 
 

@@ -1,10 +1,20 @@
-import React from 'react'
+import React from 'react';
+import { Row, Col, Card } from 'react-bootstrap';
 
-export default function UserInfo({ email, name }) {
+export function UserInfo(props) {
+  const userdata = props.userdata
   return (
-    <>
-      <p>User: {name}</p>
-      <p>Email: {email}</p>
-    </>
+    <Row>
+      <Col>
+        <Card>
+          <Card.Title>Profle</Card.Title>
+          <Card.Body>
+            <p>Username: {userdata.Username}</p>
+            <p>Email: {userdata.Email}</p>
+            <p>Birthday: {userdata.Birthday}</p>
+          </Card.Body>
+        </Card>
+      </Col>
+    </Row>
   )
 }
