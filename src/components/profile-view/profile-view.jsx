@@ -3,18 +3,16 @@ import axios from 'axios';
 
 import { UserInfo } from './user-info';
 import { FavoriteMovies } from './favorite-movies'
+import { UpdateUser } from './update-user';
 
 import './profile-view.scss';
 import { Button, Container, Row, Col, Nav } from 'react-bootstrap';
-import { UpdateUser } from './update-user';
+
 
 export function ProfileView(props) {
 
-  //constant to hold the userdata loaded from the server
   const [userdata, setUserdata] = useState({});
-  //constant to hold the data that the user updates through the form
   const [updatedUser, setUpdatedUser] = useState({});
-  //constant to hold favorite movie list from userdata
   const [favoriteMovieList, setFavoriteMovieList] = useState([]);
 
   //Set default Authorization for axios requests
@@ -27,10 +25,8 @@ export function ProfileView(props) {
       cancelToken: cancelToken
     })
       .then(response => {
-        //Assign the result to the userdata
         setUserdata(response.data);
         setUpdatedUser(response.data);
-        //Set favorite movie list with values from FavoriteMovies in userdata
         setFavoriteMovieList(props.movies.filter(m => response.data.FavoriteMovies.includes(m._id)));
       })
       .catch(err => {
@@ -53,13 +49,13 @@ export function ProfileView(props) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    axios.put(`https://mymoviesapp775.herokuapp.com/users/${userdata.Username}`, updatedUser)
+    axios.put(`https://hien-tran-080222.herokuapp.com/users/${userdata.Username}`, updatedUser)
       .then(response => {
         setUserdata(response.data);
         alert('Profile updated');
       })
-      .catch(e => {
-        console.log(e);
+      .catch(err => {
+        console.log(err);
       });
   }
 

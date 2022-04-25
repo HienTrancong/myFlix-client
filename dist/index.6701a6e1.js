@@ -40518,19 +40518,16 @@ var _axios = require("axios");
 var _axiosDefault = parcelHelpers.interopDefault(_axios);
 var _userInfo = require("./user-info");
 var _favoriteMovies = require("./favorite-movies");
+var _updateUser = require("./update-user");
 var _profileViewScss = require("./profile-view.scss");
 var _reactBootstrap = require("react-bootstrap");
-var _updateUser = require("./update-user");
 var _s = $RefreshSig$();
 function ProfileView(props) {
     _s();
-    //constant to hold the userdata loaded from the server
     const [userdata, setUserdata] = _react.useState({
     });
-    //constant to hold the data that the user updates through the form
     const [updatedUser, setUpdatedUser] = _react.useState({
     });
-    //constant to hold favorite movie list from userdata
     const [favoriteMovieList, setFavoriteMovieList] = _react.useState([]);
     //Set default Authorization for axios requests
     let token = localStorage.getItem('token');
@@ -40540,10 +40537,8 @@ function ProfileView(props) {
         _axiosDefault.default.get(`https://hien-tran-080222.herokuapp.com/users/${Username}`, {
             cancelToken: cancelToken
         }).then((response)=>{
-            //Assign the result to the userdata
             setUserdata(response.data);
             setUpdatedUser(response.data);
-            //Set favorite movie list with values from FavoriteMovies in userdata
             setFavoriteMovieList(props.movies.filter((m)=>response.data.FavoriteMovies.includes(m._id)
             ));
         }).catch((err)=>{
@@ -40560,11 +40555,11 @@ function ProfileView(props) {
     }, []);
     const handleSubmit = (e)=>{
         e.preventDefault();
-        _axiosDefault.default.put(`https://mymoviesapp775.herokuapp.com/users/${userdata.Username}`, updatedUser).then((response)=>{
+        _axiosDefault.default.put(`https://hien-tran-080222.herokuapp.com/users/${userdata.Username}`, updatedUser).then((response)=>{
             setUserdata(response.data);
             alert('Profile updated');
-        }).catch((e1)=>{
-            console.log(e1);
+        }).catch((err)=>{
+            console.log(err);
         });
     };
     //?
@@ -40598,19 +40593,19 @@ function ProfileView(props) {
     return(/*#__PURE__*/ _jsxRuntime.jsx(_reactBootstrap.Container, {
         __source: {
             fileName: "src/components/profile-view/profile-view.jsx",
-            lineNumber: 101
+            lineNumber: 97
         },
         __self: this,
         children: /*#__PURE__*/ _jsxRuntime.jsx(_reactBootstrap.Row, {
             __source: {
                 fileName: "src/components/profile-view/profile-view.jsx",
-                lineNumber: 102
+                lineNumber: 98
             },
             __self: this,
             children: /*#__PURE__*/ _jsxRuntime.jsxs(_reactBootstrap.Col, {
                 __source: {
                     fileName: "src/components/profile-view/profile-view.jsx",
-                    lineNumber: 103
+                    lineNumber: 99
                 },
                 __self: this,
                 children: [
@@ -40618,7 +40613,7 @@ function ProfileView(props) {
                         userdata: userdata,
                         __source: {
                             fileName: "src/components/profile-view/profile-view.jsx",
-                            lineNumber: 104
+                            lineNumber: 100
                         },
                         __self: this
                     }),
@@ -40627,7 +40622,7 @@ function ProfileView(props) {
                         removeFavorite: removeFavorite,
                         __source: {
                             fileName: "src/components/profile-view/profile-view.jsx",
-                            lineNumber: 105
+                            lineNumber: 101
                         },
                         __self: this
                     }),
@@ -40636,21 +40631,21 @@ function ProfileView(props) {
                         handleUpdate: handleUpdate,
                         __source: {
                             fileName: "src/components/profile-view/profile-view.jsx",
-                            lineNumber: 106
+                            lineNumber: 102
                         },
                         __self: this
                     }),
                     /*#__PURE__*/ _jsxRuntime.jsx("div", {
                         __source: {
                             fileName: "src/components/profile-view/profile-view.jsx",
-                            lineNumber: 107
+                            lineNumber: 103
                         },
                         __self: this,
                         children: /*#__PURE__*/ _jsxRuntime.jsx(_reactBootstrap.Nav.Link, {
                             href: "/",
                             __source: {
                                 fileName: "src/components/profile-view/profile-view.jsx",
-                                lineNumber: 108
+                                lineNumber: 104
                             },
                             __self: this,
                             children: "Back to Movies list"
@@ -40659,7 +40654,7 @@ function ProfileView(props) {
                     /*#__PURE__*/ _jsxRuntime.jsx("div", {
                         __source: {
                             fileName: "src/components/profile-view/profile-view.jsx",
-                            lineNumber: 110
+                            lineNumber: 106
                         },
                         __self: this,
                         children: /*#__PURE__*/ _jsxRuntime.jsx(_reactBootstrap.Button, {
@@ -40668,7 +40663,7 @@ function ProfileView(props) {
                             onClick: deleteProfile,
                             __source: {
                                 fileName: "src/components/profile-view/profile-view.jsx",
-                                lineNumber: 111
+                                lineNumber: 107
                             },
                             __self: this,
                             children: "Delete profile"
