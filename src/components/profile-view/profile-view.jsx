@@ -52,6 +52,7 @@ export function ProfileView(props) {
     axios.put(`https://hien-tran-080222.herokuapp.com/users/${userdata.Username}`, updatedUser)
       .then(response => {
         setUserdata(response.data);
+        console.log(response.data);
         alert('Profile updated');
       })
       .catch(err => {
@@ -62,8 +63,7 @@ export function ProfileView(props) {
   //?
   const handleUpdate = (e) => {
     setUpdatedUser({
-      ...updatedUser,
-      [e.target.name]: e.target.value
+      ...updatedUser, [e.target.name]: e.target.value
     });
   }
 

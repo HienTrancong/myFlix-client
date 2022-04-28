@@ -40557,6 +40557,7 @@ function ProfileView(props) {
         e.preventDefault();
         _axiosDefault.default.put(`https://hien-tran-080222.herokuapp.com/users/${userdata.Username}`, updatedUser).then((response)=>{
             setUserdata(response.data);
+            console.log(response.data);
             alert('Profile updated');
         }).catch((err)=>{
             console.log(err);
@@ -40799,66 +40800,70 @@ var _jsxRuntime = require("react/jsx-runtime");
 var _react = require("react");
 var _reactDefault = parcelHelpers.interopDefault(_react);
 var _reactBootstrap = require("react-bootstrap");
-function UpdateUser({ handleUpdate , handleSubmit  }) {
+function UpdateUser(props) {
     // Return a registration form where user can update username, password, email and bday
     // Listening to changes on input and update states
+    const { handleUpdate , handleSubmit  } = props;
     return(/*#__PURE__*/ _jsxRuntime.jsx(_reactBootstrap.Container, {
         __source: {
             fileName: "src/components/profile-view/update-user.jsx",
-            lineNumber: 9
+            lineNumber: 10
         },
         __self: this,
         children: /*#__PURE__*/ _jsxRuntime.jsx(_reactBootstrap.Row, {
             __source: {
                 fileName: "src/components/profile-view/update-user.jsx",
-                lineNumber: 10
+                lineNumber: 11
             },
             __self: this,
             children: /*#__PURE__*/ _jsxRuntime.jsx(_reactBootstrap.Col, {
                 __source: {
                     fileName: "src/components/profile-view/update-user.jsx",
-                    lineNumber: 11
+                    lineNumber: 12
                 },
                 __self: this,
                 children: /*#__PURE__*/ _jsxRuntime.jsxs(_reactBootstrap.Form, {
                     className: "mb-3",
                     __source: {
                         fileName: "src/components/profile-view/update-user.jsx",
-                        lineNumber: 12
+                        lineNumber: 13
                     },
                     __self: this,
                     children: [
                         /*#__PURE__*/ _jsxRuntime.jsx("h4", {
                             __source: {
                                 fileName: "src/components/profile-view/update-user.jsx",
-                                lineNumber: 13
+                                lineNumber: 14
                             },
                             __self: this,
                             children: "Update profile information"
                         }),
                         /*#__PURE__*/ _jsxRuntime.jsxs(_reactBootstrap.Form.Group, {
+                            controlId: "formUsername",
+                            className: "mb-3",
                             __source: {
                                 fileName: "src/components/profile-view/update-user.jsx",
-                                lineNumber: 14
+                                lineNumber: 15
                             },
                             __self: this,
                             children: [
                                 /*#__PURE__*/ _jsxRuntime.jsx(_reactBootstrap.Form.Label, {
                                     __source: {
                                         fileName: "src/components/profile-view/update-user.jsx",
-                                        lineNumber: 15
+                                        lineNumber: 16
                                     },
                                     __self: this,
                                     children: "Username:"
                                 }),
                                 /*#__PURE__*/ _jsxRuntime.jsx(_reactBootstrap.Form.Control, {
                                     type: "text",
+                                    name: "Username",
                                     placeholder: "Enter new username",
                                     onChange: (e)=>handleUpdate(e)
                                     ,
                                     __source: {
                                         fileName: "src/components/profile-view/update-user.jsx",
-                                        lineNumber: 16
+                                        lineNumber: 17
                                     },
                                     __self: this
                                 })
@@ -40869,14 +40874,14 @@ function UpdateUser({ handleUpdate , handleSubmit  }) {
                             className: "mb-3",
                             __source: {
                                 fileName: "src/components/profile-view/update-user.jsx",
-                                lineNumber: 18
+                                lineNumber: 19
                             },
                             __self: this,
                             children: [
                                 /*#__PURE__*/ _jsxRuntime.jsx(_reactBootstrap.Form.Label, {
                                     __source: {
                                         fileName: "src/components/profile-view/update-user.jsx",
-                                        lineNumber: 19
+                                        lineNumber: 20
                                     },
                                     __self: this,
                                     children: "Password:"
@@ -40888,7 +40893,7 @@ function UpdateUser({ handleUpdate , handleSubmit  }) {
                                     ,
                                     __source: {
                                         fileName: "src/components/profile-view/update-user.jsx",
-                                        lineNumber: 20
+                                        lineNumber: 21
                                     },
                                     __self: this
                                 })
@@ -40899,14 +40904,14 @@ function UpdateUser({ handleUpdate , handleSubmit  }) {
                             className: "mb-3",
                             __source: {
                                 fileName: "src/components/profile-view/update-user.jsx",
-                                lineNumber: 22
+                                lineNumber: 23
                             },
                             __self: this,
                             children: [
                                 /*#__PURE__*/ _jsxRuntime.jsx(_reactBootstrap.Form.Label, {
                                     __source: {
                                         fileName: "src/components/profile-view/update-user.jsx",
-                                        lineNumber: 23
+                                        lineNumber: 24
                                     },
                                     __self: this,
                                     children: "Email:"
@@ -40918,7 +40923,7 @@ function UpdateUser({ handleUpdate , handleSubmit  }) {
                                     ,
                                     __source: {
                                         fileName: "src/components/profile-view/update-user.jsx",
-                                        lineNumber: 24
+                                        lineNumber: 25
                                     },
                                     __self: this
                                 })
@@ -40929,14 +40934,14 @@ function UpdateUser({ handleUpdate , handleSubmit  }) {
                             className: "mb-3",
                             __source: {
                                 fileName: "src/components/profile-view/update-user.jsx",
-                                lineNumber: 26
+                                lineNumber: 27
                             },
                             __self: this,
                             children: [
                                 /*#__PURE__*/ _jsxRuntime.jsx(_reactBootstrap.Form.Label, {
                                     __source: {
                                         fileName: "src/components/profile-view/update-user.jsx",
-                                        lineNumber: 27
+                                        lineNumber: 28
                                     },
                                     __self: this,
                                     children: "Birthday:"
@@ -40948,7 +40953,7 @@ function UpdateUser({ handleUpdate , handleSubmit  }) {
                                     ,
                                     __source: {
                                         fileName: "src/components/profile-view/update-user.jsx",
-                                        lineNumber: 28
+                                        lineNumber: 29
                                     },
                                     __self: this
                                 })
@@ -40960,7 +40965,7 @@ function UpdateUser({ handleUpdate , handleSubmit  }) {
                             onClick: handleSubmit,
                             __source: {
                                 fileName: "src/components/profile-view/update-user.jsx",
-                                lineNumber: 30
+                                lineNumber: 31
                             },
                             __self: this,
                             children: "Update Profile"
@@ -41233,7 +41238,7 @@ $RefreshReg$(_c, "DirectorView");
   window.$RefreshReg$ = prevRefreshReg;
   window.$RefreshSig$ = prevRefreshSig;
 }
-},{"react/jsx-runtime":"8xIwr","react":"6TuXu","@parcel/transformer-js/src/esmodule-helpers.js":"haLOY","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"g5FJI","react-bootstrap":"h2YVd"}],"8WCoL":[function(require,module,exports) {
+},{"react/jsx-runtime":"8xIwr","react":"6TuXu","react-bootstrap":"h2YVd","@parcel/transformer-js/src/esmodule-helpers.js":"haLOY","@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js":"g5FJI"}],"8WCoL":[function(require,module,exports) {
 var $parcel$ReactRefreshHelpers$5f0a = require("@parcel/transformer-react-refresh-wrap/lib/helpers/helpers.js");
 var prevRefreshReg = window.$RefreshReg$;
 var prevRefreshSig = window.$RefreshSig$;
