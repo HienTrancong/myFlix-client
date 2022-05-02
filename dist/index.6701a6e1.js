@@ -40113,7 +40113,6 @@ class MovieCard extends _reactDefault.default.Component {
                 /*#__PURE__*/ _jsxRuntime.jsx(_reactBootstrap.Card.Img, {
                     variant: "top",
                     src: movie.ImagePath,
-                    crossOrigin: "true",
                     __source: {
                         fileName: "src/components/movie-card/movie-card.jsx",
                         lineNumber: 14
@@ -40252,7 +40251,6 @@ class MovieView extends _reactDefault.default.Component {
                                 /*#__PURE__*/ _jsxRuntime.jsx(_reactBootstrap.CardImg, {
                                     className: "movie-view movie-poster",
                                     src: movie.ImagePath,
-                                    crossOrigin: "true",
                                     __source: {
                                         fileName: "src/components/movie-view/movie-view.jsx",
                                         lineNumber: 16
