@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import propTypes from 'prop-types';
 import { Container, Row, Col, Card, CardGroup, Button, Form } from 'react-bootstrap';
 
 //Export function component
@@ -8,12 +7,56 @@ export function LoginView(props) {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
 
+  //Declare hooks for inputs and pass empty string as argument
+  const [usernameErr, setUsernameErr] = useState('');
+  const [passwordErr, setPasswordErr] = useState('');
+
+  //Validate user inputs
+  const validate = () => {
+    let isReq = true;
+    if (!username) {
+      setUsernameErr('Username is required');
+      isReq = false;
+    }
+    else if (username.length < 2) {
+      setUsernameErr('Username must be at least 2 characters long');
+      isReq = false;
+    }
+    if (!password) {
+      setPasswordErr('Password is required');
+      isReq = false;
+    }
+    else if (password.length < 6) {
+      setPasswordErr('Password must be at least 6 characters long');
+      isReq = false;
+    }
+
+    return isReq;
+  }
+
   const handleSubmit = (e) => {
+    //Prevent default form submitting
     e.preventDefault();
-    console.log(username, password);
-    //Send a request to the server for authentication
-    // then call props.onLoggedIn(username)
-    props.onLoggedIn(username);
+    //Assign validate function to variable isReq
+    let isReq = validate();
+    //Condition to check isReq
+    if (isReq) {
+      //Send a POST request to the server login end point by passing username and password for authentication
+      axios
+        .post("https://hien-tran-080222.herokuapp.com/login", {
+          Username: username,
+          Password: password
+        })
+        //If there’s a match, the onLoggedIn method that was passed through the props is called
+        .then(response => {
+          const data = response.data;
+          props.onLoggedIn(data);
+        })
+        .catch(e => {
+          console.log('no such user');
+          alert('No user found')
+        });
+    }
   };
 
   return (
@@ -28,10 +71,14 @@ export function LoginView(props) {
                   <Form.Group controlId="formUsername">
                     <Form.Label>Username:</Form.Label>
                     <Form.Control type="text" onChange={e => setUsername(e.target.value)} />
+                    {/*Display validation error*/}
+                    {usernameErr && <p>{usernameErr}</p>}
                   </Form.Group>
                   <Form.Group controlId="formPassword">
                     <Form.Label>Password:</Form.Label>
                     <Form.Control type="password" onChange={e => setPassword(e.target.value)} />
+                    {/*Display validation error*/}
+                    {passwordErr && <p>{passwordErr}</p>}
                   </Form.Group>
                   <Button variant="primary" type="submit" onClick={handleSubmit}>
                     Submit

@@ -1,21 +1,78 @@
 import React, { useState } from "react";
-//Import PropTypes to control type of props passed
-import PropTypes from "prop-types";
-//Import registrationView css file
 import "./registration-view.scss";
 
 import { Form, Button, Card, CardGroup, Container, Col, Row } from "react-bootstrap";
+import axios from "axios";
 
 export function RegistrationView(props) {
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
-  const [email, setEmail] = useState("");
-  const [birthday, setBirthday] = useState("");
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState('');
+  const [birthday, setBirthday] = useState('');
+
+  //Declare hook for each input
+  const [usernameErr, setUsernameErr] = useState('');
+  const [passwordErr, setPasswordErr] = useState('');
+  const [emailErr, setEmailErr] = useState('');
+
+  //Validate user's input
+  const validate = () => {
+    let isReq = true;
+    if (!username) {
+      setUsernameErr('Username is required');
+      isReq = false;
+    }
+    else if (username.length < 2) {
+      setUsernameErr('Username must be at least 2 characters long');
+      isReq = false;
+    }
+    if (!password) {
+      setPasswordErr('Password is required');
+      isReq = false;
+    }
+    else if (password.length < 6) {
+      setPasswordErr('Password must be at least 6 characters long');
+      isReq = false;
+    }
+    if (!email) {
+      setEmailErr('Email is required');
+      isReq = false;
+    }
+    else if (email.indexOf('@') === -1) {
+      setEmailErr('Not valid email');
+      isReq = false;
+    }
+
+    return isReq;
+  }
+
+
 
   const handleSubmit = (e) => {
+    //Prevent default form submitting
     e.preventDefault();
-    console.log(username, password, email, birthday);
-    props.onRegistration(username);
+    //Assign validate function to variable isReq
+    let isReq = validate();
+    //Condition to check isReq trueness
+    if (isReq) {
+      //Send post request with an object
+      axios.post("https://hien-tran-080222.herokuapp.com/users", {
+        Username: username,
+        Password: password,
+        Email: email,
+        Birthday: birthday
+      })
+        .then(response => {
+          const data = response.data;
+          console.log(data);
+          alert('Registration successful, please login!');
+          window.open('/', '_self');
+        })
+        .catch(response => {
+          console.error(response);
+          alert('Unable to register');
+        });
+    }
   };
 
   return (
@@ -36,6 +93,7 @@ export function RegistrationView(props) {
                       placeholder="Enter a username"
                       required
                     />
+                    {usernameErr && <p>{usernameErr}</p>}
                   </Form.Group>
                   <Form.Group>
                     <Form.Label>Password</Form.Label>
@@ -47,6 +105,7 @@ export function RegistrationView(props) {
                       minLength="8"
                       required
                     />
+                    {passwordErr && <p>{passwordErr}</p>}
                   </Form.Group>
                   <Form.Group>
                     <Form.Label>Email</Form.Label>
@@ -57,6 +116,7 @@ export function RegistrationView(props) {
                       placeholder="Enter your email address"
                       required
                     />
+                    {emailErr && <p>{emailErr}</p>}
                   </Form.Group>
                   <Form.Group>
                     <Form.Label>Birthday</Form.Label>
@@ -79,3 +139,13 @@ export function RegistrationView(props) {
     </Container>
   );
 }
+
+
+/* NOTE
+https://www.w3schools.com/jsref/met_win_open.asp
+
+          //if the backend validation is succcessful, data will be loggedin and users redirected to main view
+          //where they can login and see the list of movies
+          //Open window replaces current tab
+
+*/

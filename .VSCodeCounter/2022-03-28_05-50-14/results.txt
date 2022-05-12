@@ -1,0 +1,58 @@
+Date : 2022-03-28 05:50:14
+Directory : d:\CF Intro to frontend web development\myFlix-client
+Total : 20 files,  39727 codes, 5768 comments, 435 blanks, all 45930 lines
+
+Languages
++------------------+------------+------------+------------+------------+------------+
+| language         | files      | code       | comment    | blank      | total      |
++------------------+------------+------------+------------+------------+------------+
+| JavaScript       |          1 |     32,120 |      5,559 |        362 |     38,041 |
+| JSON             |          2 |      7,216 |          0 |          2 |      7,218 |
+| JavaScript React |          6 |        350 |        207 |         51 |        608 |
+| HTML             |          2 |         22 |          0 |          1 |         23 |
+| Markdown         |          1 |          9 |          0 |          9 |         18 |
+| CSS              |          2 |          6 |          2 |          3 |         11 |
+| SCSS             |          6 |          4 |          0 |          7 |         11 |
++------------------+------------+------------+------------+------------+------------+
+
+Directories
++---------------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| path                                                                                                          | files      | code       | comment    | blank      | total      |
++---------------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| .                                                                                                             |         20 |     39,727 |      5,768 |        435 |     45,930 |
+| dist                                                                                                          |          4 |     32,135 |      5,561 |        366 |     38,062 |
+| src                                                                                                           |         13 |        367 |        207 |         58 |        632 |
+| src\components                                                                                                |         10 |        334 |        196 |         47 |        577 |
+| src\components\login-view                                                                                     |          2 |         79 |         48 |         10 |        137 |
+| src\components\main-view                                                                                      |          2 |         99 |         89 |         17 |        205 |
+| src\components\movie-card                                                                                     |          2 |         30 |         17 |          5 |         52 |
+| src\components\movie-view                                                                                     |          2 |         31 |         38 |          3 |         72 |
+| src\components\registration-view                                                                              |          2 |         95 |          4 |         12 |        111 |
++---------------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+
+Files
++---------------------------------------------------------------------------------------------------------------+------------------+------------+------------+------------+------------+
+| filename                                                                                                      | language         | code       | comment    | blank      | total      |
++---------------------------------------------------------------------------------------------------------------+------------------+------------+------------+------------+------------+
+| d:\CF Intro to frontend web development\myFlix-client\README.md                                               | Markdown         |          9 |          0 |          9 |         18 |
+| d:\CF Intro to frontend web development\myFlix-client\dist\index.011f33b6.css                                 | CSS              |          3 |          1 |          2 |          6 |
+| d:\CF Intro to frontend web development\myFlix-client\dist\index.6701a6e1.js                                  | JavaScript       |     32,120 |      5,559 |        362 |     38,041 |
+| d:\CF Intro to frontend web development\myFlix-client\dist\index.caa67093.css                                 | CSS              |          3 |          1 |          1 |          5 |
+| d:\CF Intro to frontend web development\myFlix-client\dist\index.html                                         | HTML             |          9 |          0 |          1 |         10 |
+| d:\CF Intro to frontend web development\myFlix-client\package-lock.json                                       | JSON             |      7,187 |          0 |          1 |      7,188 |
+| d:\CF Intro to frontend web development\myFlix-client\package.json                                            | JSON             |         29 |          0 |          1 |         30 |
+| d:\CF Intro to frontend web development\myFlix-client\src\components\login-view\login-view.jsx                | JavaScript React |         79 |         48 |          9 |        136 |
+| d:\CF Intro to frontend web development\myFlix-client\src\components\login-view\login-view.scss               | SCSS             |          0 |          0 |          1 |          1 |
+| d:\CF Intro to frontend web development\myFlix-client\src\components\main-view\main-view.jsx                  | JavaScript React |         99 |         89 |         16 |        204 |
+| d:\CF Intro to frontend web development\myFlix-client\src\components\main-view\main.-view.scss                | SCSS             |          0 |          0 |          1 |          1 |
+| d:\CF Intro to frontend web development\myFlix-client\src\components\movie-card\movie-card.jsx                | JavaScript React |         30 |         17 |          4 |         51 |
+| d:\CF Intro to frontend web development\myFlix-client\src\components\movie-card\movie-card.scss               | SCSS             |          0 |          0 |          1 |          1 |
+| d:\CF Intro to frontend web development\myFlix-client\src\components\movie-view\movie-view.jsx                | JavaScript React |         31 |         38 |          2 |         71 |
+| d:\CF Intro to frontend web development\myFlix-client\src\components\movie-view\movie-view.scss               | SCSS             |          0 |          0 |          1 |          1 |
+| d:\CF Intro to frontend web development\myFlix-client\src\components\registration-view\registration-view.jsx  | JavaScript React |         95 |          4 |         11 |        110 |
+| d:\CF Intro to frontend web development\myFlix-client\src\components\registration-view\registration-view.scss | SCSS             |          0 |          0 |          1 |          1 |
+| d:\CF Intro to frontend web development\myFlix-client\src\index.html                                          | HTML             |         13 |          0 |          0 |         13 |
+| d:\CF Intro to frontend web development\myFlix-client\src\index.jsx                                           | JavaScript React |         16 |         11 |          9 |         36 |
+| d:\CF Intro to frontend web development\myFlix-client\src\index.scss                                          | SCSS             |          4 |          0 |          2 |          6 |
+| Total                                                                                                         |                  |     39,727 |      5,768 |        435 |     45,930 |
++---------------------------------------------------------------------------------------------------------------+------------------+------------+------------+------------+------------+
