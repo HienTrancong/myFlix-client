@@ -7,7 +7,9 @@ import { combineReducers } from 'redux';
 
 function visibilityFilter(state = '', action) {
   switch (action.type) {
-    case SET_FILTER: return action.value;
+    case SET_FILTER:
+      console.log('SET_FILTER reducer reached');
+      return action.value;
     default: return state;
   }
 }

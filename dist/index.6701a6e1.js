@@ -43636,6 +43636,7 @@ var _redux = require("redux");
 function visibilityFilter(state = '', action) {
     switch(action.type){
         case _actions.SET_FILTER:
+            console.log('SET_FILTER reducer reached');
             return action.value;
         default:
             return state;
