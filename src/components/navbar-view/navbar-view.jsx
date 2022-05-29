@@ -28,7 +28,7 @@ export function NavbarView({ user }) {
         <Nav className="me-auto">
           {(<Nav.Link href="/register">Sign-up</Nav.Link>)}
           {isAuth() && (<Nav.Link href="/">Sign-in</Nav.Link>)}
-          {isAuth() && (<Nav.Link as={Link} to={`/users/${user}`}> Profile</Nav.Link>)}
+          {isAuth() && (<Nav.Link as={Link} to={`/users/${user.Username}`}> Profile</Nav.Link>)}
           {isAuth() && (<Button onClick={() => { onLoggedOut() }}>Log-out</Button>)}
         </Nav>
       </Container>

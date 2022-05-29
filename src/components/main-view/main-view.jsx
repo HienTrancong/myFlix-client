@@ -3,7 +3,7 @@ import axios from 'axios';
 
 import { connect } from 'react-redux';
 
-import { setMovies } from '../../actions/actions';
+import { setMovies, setUser } from '../../actions/actions'; //#import setUser action
 
 import { BrowserRouter as Routes, Route, Redirect } from 'react-router-dom';
 
@@ -24,18 +24,14 @@ import { GenreView } from '../genre-view/genre-view';
 class MainView extends React.Component {
   constructor() {
     super();
-    this.state = {
-      user: null,
-    };
   }
 
   componentDidMount() {
     let accessToken = localStorage.getItem('token');
-    if (accessToken !== null) {
-      this.setState({
-        user: localStorage.getItem('user')
-      });
-      this.getMovies(accessToken)
+    let username = localStorage.getItem('user');
+    if (accessToken !== null && username !== null) {
+      this.getMovies(accessToken);
+      this.getUser(accessToken, username)
     }
   }
 
@@ -53,29 +49,36 @@ class MainView extends React.Component {
       });
   }
 
+  getUser(token, username) {
+    axios.get(`https://hien-tran-080222.herokuapp.com/users/${username}`, {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    })
+      .then(response => {
+        this.props.setUser(response.data);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  }
+
   //When user sucessfully logs in, this function updates 'user' property to that user
   onLoggedIn(authData) {
-    console.log(authData);
-    this.setState({
-      user: authData.user.Username
-    });
     localStorage.setItem('token', authData.token);
     localStorage.setItem('user', authData.user.Username);
     this.getMovies(authData.token);
+    this.getUser(authData.token, authData.user.Username)
   }
 
   //When user logs out, token and user are removed from localStorage, 'user' state set to null
   onLoggedOut() {
     localStorage.removeItem('token');
     localStorage.removeItem('user');
-    this.setState({
-      user: null
-    });
   }
 
   render() {
-    let { movies } = this.props;
-    let { user } = this.state;
+    let { movies, user } = this.props;
 
     return (
       <Routes>
@@ -101,7 +104,7 @@ class MainView extends React.Component {
                 <MovieView movie={movies.find(m => m._id === match.params.movieId)} onBackClick={() => history.goBack()} />
               </Col>
             }} />
-            <Route path={`/users/${user}`} render={({ history }) => {
+            <Route path={`/users/${user.Username}`} render={({ history }) => {
               if (!user) return <Redirect to='/' />
               return (
                 <Col>
@@ -133,11 +136,12 @@ class MainView extends React.Component {
 
 let mapStateToProps = (state) => {
   return {
-    movies: state.movies
+    movies: state.movies,
+    user: state.user
   }
 }
 
-export default connect(mapStateToProps, { setMovies })(MainView);
+export default connect(mapStateToProps, { setMovies, setUser })(MainView);
 
 /* NOTE
 

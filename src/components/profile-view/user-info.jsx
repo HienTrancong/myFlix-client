@@ -2,16 +2,17 @@ import React from 'react';
 import { Row, Col, Card } from 'react-bootstrap';
 
 export function UserInfo(props) {
-  const userdata = props.userdata
+  const { user } = props;
+  console.log(user);
   return (
     <Row>
       <Col>
         <Card>
-          <Card.Title>Profle</Card.Title>
+          <Card.Title>User Profile</Card.Title>
           <Card.Body>
-            <p>Username: {userdata.Username}</p>
-            <p>Email: {userdata.Email}</p>
-            <p>Birthday: {userdata.Birthday}</p>
+            <p>Username: {user.Username}</p>
+            <p>Email: {user.Email}</p>
+            <p>Birthday: {user.Birthday}</p>
           </Card.Body>
         </Card>
       </Col>

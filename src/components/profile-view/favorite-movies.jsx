@@ -3,14 +3,24 @@ import React from 'react';
 import { Row, Col, Button, Card, Container } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 
-export function FavoriteMovies({ favoriteMovieList, removeFavorite }) {
+export function FavoriteMovies(props) {
+
+  const { user } = props;
+  console.log(user);
+
   return (
     <>
       <Row xs={12}>
         <Col>
-          <h4>My favorite movies</h4>
+          <h4>Favorite movies of {user.Username}</h4>
         </Col>
       </Row>
+
+    </>
+  )
+}
+
+/*
       {
         favoriteMovieList.map(movie => {
           return (
@@ -34,7 +44,5 @@ export function FavoriteMovies({ favoriteMovieList, removeFavorite }) {
           )
         })
       }
-    </>
-  )
-}
+*/
 

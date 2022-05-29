@@ -11,47 +11,53 @@ import { Button, Container, Row, Col, Nav } from 'react-bootstrap';
 
 export function ProfileView(props) {
 
-  const [userdata, setUserdata] = useState({});
+  const { user, onBackClick } = props;
+
+  // const [userdata, setUserdata] = useState({ user }); //no need because already have props user
   const [updatedUser, setUpdatedUser] = useState({});
-  const [favoriteMovieList, setFavoriteMovieList] = useState([]);
+  // const [favoriteMovieList, setFavoriteMovieList] = useState([]); //no need because will pass favorite
 
   //Set default Authorization for axios requests
   let token = localStorage.getItem('token');
   axios.defaults.headers.common['Authorization'] = `Bearer ${token}`
 
   //Function to get the user data from server, assign to userdata variable
-  const getUserData = (cancelToken, Username) => {
-    axios.get(`https://hien-tran-080222.herokuapp.com/users/${Username}`, {
-      cancelToken: cancelToken
-    })
-      .then(response => {
-        setUserdata(response.data);
-        setUpdatedUser(response.data);
-        setFavoriteMovieList(props.movies.filter(m => response.data.FavoriteMovies.includes(m._id)));
-      })
-      .catch(err => {
-        console.log(err);
-      });
-  }
-  useEffect(() => {
-    let source = axios.CancelToken.source();
-    if (token !== null) {
-      getUserData(
-        source.token,
-        props.user);
-    } else {
-      console.log('Not Authorized');
-    }
-    return () => {
-      source.cancel();
-    }
-  }, []);
+  //no need because already have user data pass as props
+  // const getUserData = (cancelToken, Username) => {
+  //   axios.get(`https://hien-tran-080222.herokuapp.com/users/${Username}`, {
+  //     cancelToken: cancelToken
+  //   })
+  //     .then(response => {
+  //       setUserdata(response.data);
+  //       setUpdatedUser(response.data);
+  //       setFavoriteMovieList(props.movies.filter(m => response.data.FavoriteMovies.includes(m._id)));
+  //     })
+  //     .catch(err => {
+  //       console.log(err);
+  //     });
+  // }
+
+  //no need because already have user data pass as props
+  // useEffect(() => {
+  //   let source = axios.CancelToken.source();
+  //   if (token !== null) {
+  //     getUserData(
+  //       source.token,
+  //       props.user);
+  //   } else {
+  //     console.log('Not Authorized');
+  //   }
+  //   return () => {
+  //     source.cancel();
+  //   }
+  // }, []);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    axios.put(`https://hien-tran-080222.herokuapp.com/users/${userdata.Username}`, updatedUser)
+    axios.put(`https://hien-tran-080222.herokuapp.com/users/${user.Username}`, updatedUser)
       .then(response => {
-        setUserdata(response.data);
+        // setUserdata(response.data);
+
         console.log(response.data);
         alert('Profile updated');
       })
@@ -69,7 +75,7 @@ export function ProfileView(props) {
 
   //Function to allow users to deregister
   const deleteProfile = (e) => {
-    axios.delete(`https://hien-tran-080222.herokuapp.com/users/${userdata.Username}`)
+    axios.delete(`https://hien-tran-080222.herokuapp.com/users/${user.Username}`)
       .then(response => {
         alert('Your profile has been deleted');
         localStorage.removeItem('user');
@@ -80,37 +86,37 @@ export function ProfileView(props) {
         console.log(err);
       });
   }
-
   //Function allows users to remove a movie from their list of favorites
-  const removeFavorite = (id) => {
-    axios.delete(`https://hien-tran-080222.herokuapp.com/users/${userdata.Username}/movies/${id}`)
-      .then(() => {
-        //Change state of favoriteMovieList to rerender component
-        setFavoriteMovieList(favoriteMovieList.filter(movie => movie._id != id));
-      })
-      .catch(err => {
-        console.log(err);
-      });
-  }
+  //No need because this will be done in favorit movies view
+  // const removeFavorite = (id) => {
+  //   axios.delete(`https://hien-tran-080222.herokuapp.com/users/${userdata.Username}/movies/${id}`)
+  //     .then(() => {
+  //       //Change state of favoriteMovieList to rerender component
+  //       setFavoriteMovieList(favoriteMovieList.filter(movie => movie._id != id));
+  //     })
+  //     .catch(err => {
+  //       console.log(err);
+  //     });
+  // }
 
   return (
-    <Container>
+    <>
       <Row>
         <Col>
-          < UserInfo userdata={userdata} />
-          < FavoriteMovies favoriteMovieList={favoriteMovieList} removeFavorite={removeFavorite} />
+          < UserInfo user={user} />
+          < FavoriteMovies user={user} />
           < UpdateUser handleSubmit={handleSubmit} handleUpdate={handleUpdate} />
           <div>
-            <Nav.Link href="/">Back to Movies list</Nav.Link>
-          </div>
-          <div>
+            <Button variant="primary" onClick={() => { onBackClick(null); }}>
+              Back to movies list
+            </Button>
             <Button variant="danger" type="submit" onClick={deleteProfile}>
               Delete profile
             </Button>
           </div>
         </Col>
       </Row>
-    </Container>
+    </>
   );
 }
 
