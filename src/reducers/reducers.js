@@ -2,7 +2,10 @@ import {
   SET_MOVIES,
   SET_FILTER,
   SET_USER,
-  UPDATE_USER
+  UPDATE_USER,
+  SET_FAVORITEMOVIES,
+  ADD_FAVORITEMOVIE,
+  REMOVE_FAVORITEMOVIE
 } from '../actions/actions';
 
 import { combineReducers } from 'redux';
@@ -37,10 +40,29 @@ function user(state = '', action) {
   }
 }
 
+function favoriteMovies(state = [], action) {
+  switch (action.type) {
+    case SET_FAVORITEMOVIES:
+      console.log('SET_FAVORITEMOVIES reducer reached');
+      return action.value;
+    case ADD_FAVORITEMOVIE:
+      console.log('ADD_FAVORITEMOVIE reducer reached');
+      return [...state, action.value];
+    case REMOVE_FAVORITEMOVIE:
+      console.log('REMOVE_FAVORITEMOVIE reducer reached');
+      return state.filter(movie => movie._id != action.value._id);
+    default: return state;
+
+  }
+}
+
+
+
 const moviesApp = combineReducers({
   visibilityFilter,
   movies,
-  user
+  user,
+  favoriteMovies
 });
 
 export default moviesApp;

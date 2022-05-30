@@ -2,8 +2,8 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
 import { UserInfo } from './user-info';
-import { FavoriteMovies } from './favorite-movies'
-import { UpdateUser } from './update-user';
+import { FavoriteMovies } from './favorite-movies';
+import UpdateUser from './update-user';
 
 import './profile-view.scss';
 import { Button, Container, Row, Col, Nav } from 'react-bootstrap';
@@ -11,67 +11,12 @@ import { Button, Container, Row, Col, Nav } from 'react-bootstrap';
 
 export function ProfileView(props) {
 
-  const { user, onBackClick } = props;
-
-  // const [userdata, setUserdata] = useState({ user }); //no need because already have props user
-  const [updatedUser, setUpdatedUser] = useState({});
-  // const [favoriteMovieList, setFavoriteMovieList] = useState([]); //no need because will pass favorite
+  const { user, favoriteMovies, onBackClick } = props;
 
   //Set default Authorization for axios requests
   let token = localStorage.getItem('token');
   axios.defaults.headers.common['Authorization'] = `Bearer ${token}`
 
-  //Function to get the user data from server, assign to userdata variable
-  //no need because already have user data pass as props
-  // const getUserData = (cancelToken, Username) => {
-  //   axios.get(`https://hien-tran-080222.herokuapp.com/users/${Username}`, {
-  //     cancelToken: cancelToken
-  //   })
-  //     .then(response => {
-  //       setUserdata(response.data);
-  //       setUpdatedUser(response.data);
-  //       setFavoriteMovieList(props.movies.filter(m => response.data.FavoriteMovies.includes(m._id)));
-  //     })
-  //     .catch(err => {
-  //       console.log(err);
-  //     });
-  // }
-
-  //no need because already have user data pass as props
-  // useEffect(() => {
-  //   let source = axios.CancelToken.source();
-  //   if (token !== null) {
-  //     getUserData(
-  //       source.token,
-  //       props.user);
-  //   } else {
-  //     console.log('Not Authorized');
-  //   }
-  //   return () => {
-  //     source.cancel();
-  //   }
-  // }, []);
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    axios.put(`https://hien-tran-080222.herokuapp.com/users/${user.Username}`, updatedUser)
-      .then(response => {
-        // setUserdata(response.data);
-
-        console.log(response.data);
-        alert('Profile updated');
-      })
-      .catch(err => {
-        console.log(err);
-      });
-  }
-
-  //?
-  const handleUpdate = (e) => {
-    setUpdatedUser({
-      ...updatedUser, [e.target.name]: e.target.value
-    });
-  }
 
   //Function to allow users to deregister
   const deleteProfile = (e) => {
@@ -86,6 +31,7 @@ export function ProfileView(props) {
         console.log(err);
       });
   }
+
   //Function allows users to remove a movie from their list of favorites
   //No need because this will be done in favorit movies view
   // const removeFavorite = (id) => {
@@ -104,16 +50,22 @@ export function ProfileView(props) {
       <Row>
         <Col>
           < UserInfo user={user} />
-          < FavoriteMovies user={user} />
-          < UpdateUser handleSubmit={handleSubmit} handleUpdate={handleUpdate} />
+
+          <div>
+            <Button variant="danger" type="submit" onClick={deleteProfile}>
+              Deregister
+            </Button>
+          </div>
+
+          < FavoriteMovies user={user} favoriteMovies={favoriteMovies} />
+          < UpdateUser user={user} />
+
           <div>
             <Button variant="primary" onClick={() => { onBackClick(null); }}>
               Back to movies list
             </Button>
-            <Button variant="danger" type="submit" onClick={deleteProfile}>
-              Delete profile
-            </Button>
           </div>
+
         </Col>
       </Row>
     </>

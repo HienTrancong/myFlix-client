@@ -3,7 +3,7 @@ import axios from 'axios';
 
 import { connect } from 'react-redux';
 
-import { setMovies, setUser } from '../../actions/actions'; //#import setUser action
+import { setMovies, setUser, setFavoriteMovies } from '../../actions/actions'; //#import setUser action
 
 import { BrowserRouter as Routes, Route, Redirect } from 'react-router-dom';
 
@@ -30,8 +30,15 @@ class MainView extends React.Component {
     let accessToken = localStorage.getItem('token');
     let username = localStorage.getItem('user');
     if (accessToken !== null && username !== null) {
-      this.getMovies(accessToken);
-      this.getUser(accessToken, username)
+      Promise.all(
+        [
+          this.getMovies(accessToken),
+          this.getUser(accessToken, username)
+        ])
+        .then(() => {
+          this.props.setFavoriteMovies(
+            this.props.movies.filter(movie => this.props.user.FavoriteMovies.includes(movie._id)));
+        })
     }
   }
 
@@ -67,8 +74,15 @@ class MainView extends React.Component {
   onLoggedIn(authData) {
     localStorage.setItem('token', authData.token);
     localStorage.setItem('user', authData.user.Username);
-    this.getMovies(authData.token);
-    this.getUser(authData.token, authData.user.Username)
+    Promise.all(
+      [
+        this.getMovies(accessToken),
+        this.getUser(accessToken, username)
+      ])
+      .then(() => {
+        this.props.setFavoriteMovies(
+          this.props.movies.filter(movie => this.props.user.FavoriteMovies.includes(movie._id)));
+      })
   }
 
   //When user logs out, token and user are removed from localStorage, 'user' state set to null
@@ -78,7 +92,8 @@ class MainView extends React.Component {
   }
 
   render() {
-    let { movies, user } = this.props;
+    let { movies, user, favoriteMovies } = this.props;
+    console.log('mainview', movies, user, favoriteMovies);
 
     return (
       <Routes>
@@ -91,7 +106,7 @@ class MainView extends React.Component {
                   <LoginView onLoggedIn={(user) => this.onLoggedIn(user)} />
                 </Col>
               if (movies.length === 0) return <div className='main-view' />;
-              return <MovieList movies={movies} />;
+              return <MovieList movies={movies} user={user} favoriteMovies={favoriteMovies} />;
             }} />
             <Route path='/register' render={() => {
               if (user) return <Redirect to='/' />
@@ -108,7 +123,7 @@ class MainView extends React.Component {
               if (!user) return <Redirect to='/' />
               return (
                 <Col>
-                  <ProfileView user={user} movies={movies} onBackClick={() => history.goBack()} />
+                  <ProfileView user={user} favoriteMovies={favoriteMovies} onBackClick={() => history.goBack()} />
                 </Col>
               )
             }} />
@@ -137,11 +152,12 @@ class MainView extends React.Component {
 let mapStateToProps = (state) => {
   return {
     movies: state.movies,
-    user: state.user
+    user: state.user,
+    favoriteMovies: state.favoriteMovies
   }
 }
 
-export default connect(mapStateToProps, { setMovies, setUser })(MainView);
+export default connect(mapStateToProps, { setMovies, setUser, setFavoriteMovies })(MainView);
 
 /* NOTE
 
