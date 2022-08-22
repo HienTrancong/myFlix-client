@@ -27,7 +27,6 @@ class MainView extends React.Component {
   }
 
 
-
   getUser(token, username) {
     axios.get(`https://hien-tran-080222.herokuapp.com/users/${username}`, {
       headers: {
